@@ -2,23 +2,21 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/websocket"
 )
 
 // AllRooms is the global hashmap for the server
 var AllRooms RoomMap
 
-/** Handler**/
-//Handler func for create room and return ID room
-func CreateRoomHandler(w http.ResponseWriter, r *http.Request){
+// CreateRoomRequestHandler Create a Room and return roomID
+func CreateRoomHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	roomID := AllRooms.CreateRoom()
 
 	type resp struct {
-		RoomID string `json:"id_room"`
+		RoomID string `json:"room_id"`
 	}
 
 	log.Println(AllRooms.Map)
@@ -56,8 +54,9 @@ func broadcaster() {
 	}
 }
 
-//Handler func for join the client in a particular room
-func JoinRoomHandler(w http.ResponseWriter, r *http.Request){
+
+// JoinRoomRequestHandler will join the client in a particular room
+func JoinRoomHandler(w http.ResponseWriter, r *http.Request) {
 	roomID, ok := r.URL.Query()["roomID"]
 
 	if !ok {

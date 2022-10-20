@@ -7,6 +7,7 @@ import (
 
 	"github.com/destafajri/video-chat-app/server"
 )
+
 func main() {
 	server.AllRooms.Init()
 
@@ -14,7 +15,7 @@ func main() {
 	http.HandleFunc("/join", server.JoinRoomHandler)
 
 	err := http.ListenAndServe(":1000", nil)
-	if err !=nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 
